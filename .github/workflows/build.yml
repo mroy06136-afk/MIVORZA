@@ -15,13 +15,17 @@ jobs:
           java-version: '17'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew || find . -name "gradlew" -exec chmod +x {} +
-      - name: Build APK with Gradle
-        run: ./gradlew assembleDebug || find . -name "gradlew" -execdir ./gradlew assembleDebug \;
-      - name: Find and Upload APK
+      - name: Build with Gradle
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew assembleDebug
+          else
+            find . -name "gradlew" -execdir ./gradlew assembleDebug \;
+          fi
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
           path: |
-            app/build/outputs/apk/debug/*.apk
             **/build/outputs/apk/debug/*.apk
             **/*.apk
