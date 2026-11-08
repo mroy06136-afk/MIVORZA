@@ -12,21 +12,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check repository files
+        run: ls -la
+
       - name: set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew || find . -name "gradlew" -exec chmod +x {} +
+      - name: Check for gradlew or build files
+        run: find . -maxdepth 3 -name "gradlew" -o -name "build.gradle*"
 
-      - name: Build with Gradle
+      - name: Build with Gradle (if gradlew exists)
         run: |
           if [ -f "./gradlew" ]; then
+            chmod +x gradlew
             ./gradlew assembleDebug
+          elif [ -f "gradle/wrapper/gradle-wrapper.properties" ]; then
+            find . -name "gradlew" -exec chmod +x {} +
+            find . -name "gradlew" -exec {} assembleDebug \;
           else
-            find . -name "gradlew" -execdir ./gradlew assembleDebug \;
+            echo "No gradlew found, skipping gradle build."
           fi
 
       - name: Upload APK Artifact
@@ -37,4 +44,4 @@ jobs:
             app/build/outputs/apk/debug/*.apk
             **/build/outputs/apk/debug/*.apk
             **/*.apk
-            !**/build/intermediates/**
+          if-no-files-found: warn
