@@ -17,16 +17,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Android SDK & Build
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.19.0'
-          cache: true
-
-      - name: Build with Gradle Directly
+      - name: Generate Gradle Wrapper
         run: |
-          export JAVA_HOME=$($env:JAVA_HOME)
-          gradle assembleDebug || ./gradlew assembleDebug || ./gradlew build --no-daemon
+          gradle wrapper --gradle-version 8.5
+          chmod +x gradlew
+
+      - name: Build APK with Gradle
+        run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -35,4 +32,3 @@ jobs:
           path: |
             app/build/outputs/apk/debug/*.apk
             **/build/outputs/apk/debug/*.apk
-            **/*.apk
