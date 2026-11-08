@@ -1,0 +1,1207 @@
+COMPLEMIVORZA STUDIO – TE MASTER PROMPT
+Full Social Media Platform | Creator Studio | Live Streaming | Global Monetization | Admin Control
+PROJECT NAME: MIVORZA STUDIO PROJECT TYPE: Global Social Media & Creator Monetization Platform DEVELOPMENT PLATFORM: Existing Lovable Project TARGET: Production-Ready Web Application and Android Application DESIGN GOAL: Premium, Modern, Professional, Responsive and Original MIVORZA Branding
+
+
+
+MAIN DEVELOPMENT INSTRUCTION
+Act as a Senior Full-Stack Developer, Mobile App Architect, UI/UX Designer, Database Engineer, Security Engineer and Payment Integration Specialist.
+I want you to update, complete, optimize and secure my existing MIVORZA STUDIO project.
+Build a complete social media platform inspired by the functionality of Facebook, TikTok, Instagram and modern creator platforms, while maintaining unique MIVORZA branding, original layouts and original design assets.
+
+
+
+IMPORTANT RULES:
+1. First inspect the entire existing project and understand its current architecture.
+2. Do not delete or overwrite working features.
+3. Do not create duplicate pages, components, tables or functions.
+4. Reuse existing code wherever possible.
+5. Fix existing bugs before adding new functionality.
+6. Every visible button, menu, tab, icon and action must work.
+7. Never use fake buttons, fake analytics, simulated payments or hardcoded user data in production.
+8. Connect all features to the real backend and database.
+9. Use secure server-side operations for financial transactions.
+10. Do not expose API keys, service-role keys, payment secrets or private credentials in frontend code.
+11. Build features in manageable phases and test each phase.
+12. If an external API, payment account, credential or service is missing, create a proper integration structure and clearly identify the required setup. Never claim that an integration is live until it has been tested.
+
+
+MODULE 1: USER AUTHENTICATION & ACCOUNT MANAGEMENT
+Implement a complete authentication system.
+Features:
+• Email and password registration.
+• Email verification.
+• Secure login and logout.
+• Forgot password.
+• Password reset.
+• Optional phone number verification.
+• OTP verification.
+• Secure persistent login.
+• Automatic session restoration after closing and reopening the app.
+• Secure session expiration and refresh.
+• Multiple device session management.
+• Account deletion.
+• Account recovery.
+• Login activity history.
+Use Supabase Auth or the existing authentication provider.
+After successful login, users should automatically enter the main feed when their session remains valid.
+
+
+
+MODULE 2: USER PROFILE & PERSONAL SETTINGS
+Create complete user profiles.
+Profile fields:
+• Display Name.
+• Unique Username.
+• Profile Photo.
+• Cover Photo.
+• Bio.
+• Date of Birth.
+• Gender (optional).
+• Location (optional).
+• Website.
+• Creator Category.
+• Verification Status.
+• Followers.
+• Following.
+• Friends.
+• Total Posts.
+Profile functionality:
+• Edit Profile.
+• Upload Profile Photo.
+• Upload Cover Photo.
+• View Profile.
+• Follow and Unfollow.
+• Add Friend.
+• Accept or Reject Friend Request.
+• Remove Friend.
+• Block and Unblock.
+• Share Profile.
+• Report Profile.
+• View Public Posts.
+• View Reels.
+• View Stories.
+• Creator Mode On/Off.
+Protect private profile information, especially date of birth, email and phone number. Never display private details publicly without explicit permission.
+
+
+
+
+MODULE 3: GLOBAL USER SEARCH & DISCOVERY
+Create a functional global search system.
+Allow users to search:
+• People.
+• Usernames.
+• Creators.
+• Public Pages.
+• Groups.
+• Reels.
+• Posts.
+• Hashtags.
+• Trending Topics.
+• Audio Tracks.
+Features:
+• Instant search suggestions.
+• Search history.
+• Recent searches.
+• Popular searches.
+• Search filters.
+• Verified creator filters.
+• Follow button in search results.
+• Profile preview.
+• Relevant result ranking.
+• Pagination or infinite scrolling.
+Implement secure database queries and prevent unauthorized access to private accounts and content.
+
+
+
+
+MODULE 4: COMPLETE SOCIAL NEWS FEED
+Build a fully functional social feed.
+Post types:
+• Text Posts.
+• Image Posts.
+• Video Posts.
+• Multiple Photo Posts.
+• Link Posts.
+• Poll Posts.
+• Shared Posts.
+Post actions:
+• Like.
+• Unlike.
+• Love and other reactions.
+• Comment.
+• Reply to Comment.
+• Nested Replies.
+• Share.
+• Save.
+• Edit.
+• Delete.
+• Pin.
+• Report.
+• Copy Link.
+Feed features:
+• Following Feed.
+• Recommended Feed.
+• Latest Posts.
+• Trending Posts.
+• Popular Creators.
+• Infinite Scrolling.
+• Personalized Recommendations.
+All actions must be saved to the database and synchronized between users.
+
+
+
+
+
+MODULE 5: STORIES SYSTEM – 24 HOURS
+Implement a complete Stories feature.
+Features:
+• Upload Photo Stories.
+• Upload Video Stories.
+• Text Stories.
+• Music Stories.
+• Story Stickers.
+• Emoji Reactions.
+• Story Replies.
+• Story View Counter.
+• Viewer List.
+• Story Privacy.
+• Hide Story From Specific Users.
+• Story Highlights.
+• Stories Archive.
+Stories should automatically expire after 24 hours, based on server timestamps.
+
+
+
+
+
+MODULE 6: REELS & SHORT VIDEO PLATFORM
+Build a TikTok-style short video experience.
+Features:
+• Full-screen vertical video feed.
+• Smooth swipe navigation.
+• Automatic video playback.
+• Pause and resume.
+• Video upload.
+• Video trimming.
+• Video editing.
+• Captions.
+• Hashtags.
+• Cover Image.
+• Music selection.
+• Video filters.
+• Speed controls.
+• Draft Reels.
+• Save Reels.
+• Share Reels.
+• Like and Comment.
+• Creator Profile Link.
+• Use This Audio.
+• Remix.
+• Duet-style creation.
+• Video reporting.
+• Content moderation.
+Optimize video encoding, thumbnails, streaming and storage.
+Do not load entire large videos into memory unnecessarily.
+
+
+
+
+MODULE 7: TRENDING HUB
+Create a dedicated Trending section.
+Categories:
+1. Trending Videos.
+2. Trending Reels.
+3. Viral Posts.
+4. Trending Creators.
+5. Trending Topics.
+6. Trending Hashtags.
+7. Trending Music.
+8. Technology.
+9. Entertainment.
+10. Music.
+11. Gaming.
+12. Education.
+13. Sports.
+14. Lifestyle.
+15. Comedy.
+Include:
+• Trending rankings.
+• Engagement metrics.
+• Time-based filters.
+• Category filters.
+• Search.
+• Popular creators.
+• Personalized recommendations.
+Trending rankings must use actual engagement and platform data, not invented statistics.
+
+
+
+
+
+MODULE 8: CREATOR AUDIO & REMIX STUDIO
+Build a complete creator audio studio.
+Features:
+• Trending Audio Library.
+• Music Categories.
+• Audio Search.
+• Audio Preview.
+• Waveform Preview.
+• Track Duration.
+• Real Audio Usage Statistics.
+• Select Audio.
+• Use This Audio.
+• Create Reel With Sound.
+• Audio Timeline.
+• Video and Audio Synchronization.
+• Voiceover Recording.
+• Volume Control.
+• Audio Trimming.
+• Original Audio Upload.
+• Remix Creation.
+Respect copyright, music licensing and regional usage restrictions.
+Only display music for which the platform has appropriate usage rights.
+
+
+
+
+MODULE 9: COMPLETE MESSENGER SYSTEM
+Build a fully functional real-time messaging system.
+Features:
+• One-to-One Messaging.
+• Group Chat.
+• Text Messages.
+• Image Sharing.
+• Video Sharing.
+• Voice Messages.
+• File Attachments.
+• Emoji Reactions.
+• Message Replies.
+• Message Editing.
+• Message Deletion.
+• Message Forwarding.
+• Read Receipts.
+• Delivered Status.
+• Typing Indicator.
+• Online Status.
+• Last Seen.
+• Chat Search.
+• Message Search.
+• Mute Conversation.
+• Archive Conversation.
+• Block User.
+• Report Conversation.
+Use Supabase Realtime or an equivalent secure real-time service.
+Ensure users can only access conversations in which they are authorized participants.
+
+
+
+MODULE 10: FRIENDS, FOLLOWERS & SOCIAL CONNECTIONS
+Implement complete social connections.
+Friend system:
+• Send Friend Request.
+• Accept Request.
+• Reject Request.
+• Cancel Request.
+• Remove Friend.
+• Pending Requests.
+• Suggested Friends.
+Follow system:
+• Follow.
+• Unfollow.
+• Followers List.
+• Following List.
+• Creator Following.
+• Private Account Follow Approval.
+Prevent duplicate requests and duplicate follow records.
+
+
+
+
+
+MODULE 11: NOTIFICATION CENTER
+Build a complete notification system.
+Notification types:
+• Friend Requests.
+• Friend Request Accepted.
+• New Followers.
+• Likes.
+• Comments.
+• Replies.
+• Shares.
+• Mentions.
+• Tags.
+• Messages.
+• Story Reactions.
+• Live Notifications.
+• Gift Received.
+• Creator Earnings.
+• Payout Status.
+• Security Alerts.
+• Admin Announcements.
+Features:
+• Real-time Notifications.
+• Push Notifications.
+• Read and Unread Status.
+• Mark All as Read.
+• Notification Preferences.
+• Notification History.
+• Deep Linking to the relevant content.
+Use appropriate push notification infrastructure for supported devices.
+
+
+
+
+
+MODULE 12: GROUPS & PAGES
+Groups:
+• Create Group.
+• Public Group.
+• Private Group.
+• Group Admins.
+• Moderators.
+• Member Requests.
+• Approve Members.
+• Remove Members.
+• Group Posts.
+• Group Discussions.
+• Group Rules.
+• Report Group.
+Pages:
+• Create Page.
+• Business Pages.
+• Creator Pages.
+• Page Followers.
+• Page Insights.
+• Page Posts.
+• Page Roles.
+• Page Moderation.
+• Page Verification.
+
+
+
+
+MODULE 13: REAL-TIME LIKES & FLOATING COMMENTS
+Create a live social interaction animation system.
+Requirements:
+• Floating Heart Animations.
+• Floating Emoji Animations.
+• Floating Comment Bubbles.
+• Smooth Upward Movement.
+• Side-to-Side Motion.
+• Fade-Out Animation.
+• Multiple Concurrent Reactions.
+• Real-Time Synchronization.
+• Optimized Rendering.
+• Reduced Motion Accessibility Setting.
+Animation should originate near the like and comment controls.
+Use Supabase Realtime, WebSockets or an equivalent service to broadcast authorized interactions to viewers of the same content.
+Implement rate limits, event deduplication and performance controls to prevent excessive traffic.
+
+
+
+
+
+MODULE 14: LIVE STREAMING SYSTEM
+Implement real live broadcasting.
+Features:
+• Start Live.
+• End Live.
+• Live Video Playback.
+• Camera Access.
+• Microphone Access.
+• Viewer Counter.
+• Live Comments.
+• Live Reactions.
+• Live Gifts.
+• Live Moderators.
+• Guest Invitations.
+• Multiple Guest Streaming, where supported.
+• Mute and Unmute.
+• Camera Switching.
+• Live Recording, where supported.
+• Replay.
+• Live Report.
+• Block Viewer.
+• Live Privacy Settings.
+Use a suitable external live streaming provider such as Agora, LiveKit or another supported service.
+Keep provider credentials on the backend.
+Separate live streaming configuration from core app development so that missing external credentials do not break the rest of the application.
+Request camera and microphone permissions only when needed. Ask for location permission only for a feature that genuinely requires location. Never require location merely to watch a live stream.
+
+
+
+
+
+MODULE 15: GLOBAL MULTI-CURRENCY STAR SHOP
+Build a complete Star purchasing system.
+Baseline pricing:
+1 Star = $0.01 USD
+Standard packages:Package	Price
+30 Stars	$0.30
+80 Stars	$0.80
+150 Stars	$1.50
+300 Stars	$3.00
+500 Stars	$5.00
+1,000 Stars	$10.00
+2,000 Stars	$20.00
+3,000 Stars	$30.00
+5,000 Stars	$50.00
+
+First-Time Buyer Bonus:Package	Bonus	Total Stars
+30	10	40
+80	20	100
+150	50	200
+
+The first-time bonus must be granted only once per verified eligible account and must not be exploitable through duplicate accounts.
+Payment requirements:
+• Global Payment Gateway.
+• Stripe where supported.
+• Razorpay for eligible markets.
+• Local Currency Display.
+• USD Baseline Accounting.
+• Exchange Rate Records.
+• Secure Checkout.
+• Payment Confirmation.
+• Payment Webhooks.
+• Refund Handling.
+• Chargeback Handling.
+• Duplicate Payment Protection.
+• Purchase History.
+All successful purchases should credit the configured gross purchase amount to the Admin Wallet accounting ledger.
+Important: Separate gateway processing fees, taxes, refunds and chargebacks from gross revenue. Do not misrepresent net revenue as gross revenue.
+Use server-side payment verification before issuing Stars.
+
+
+
+
+
+MODULE 16: ANIMATED VIRTUAL GIFTING CATALOG
+Create a premium animated gift shop.
+Gift categories:
+Small Gifts
+• Rose.
+• Heart.
+• Other small gifts.
+Medium Gifts
+• Tiger – 1,000 Stars.
+High-Value Gifts
+• Elephant – 2,000 Stars.
+Premium Gifts
+• Dragon – 3,000 Stars.
+• Luxury Castle – 5,000 Stars.
+Each gift must have:
+• Original Animation.
+• Gift Name.
+• Star Price.
+• Preview.
+• Send Button.
+• Recipient.
+• Sender.
+• Transaction ID.
+• Gift History.
+Animation styles:
+• Small Gifts: Lightweight animations.
+• Tiger: Dynamic animation.
+• Elephant: Grand visual effect.
+• Dragon: Full-screen cinematic animation.
+• Luxury Castle: Premium cinematic animation.
+Gift animations must be optimized for mobile devices.
+Gift sending must use a secure backend transaction and must never depend on frontend balance calculations.
+
+
+
+
+MODULE 17: AUTOMATED 70/30 GIFT REVENUE SPLIT
+Implement a secure financial ledger.
+For every eligible gift:
+• 70% of the eligible gift value goes to the Creator Earnings Ledger.
+• 30% goes to the Admin Revenue Ledger.
+Example:
+A creator receives a gift worth $10.
+• Creator Share: $7.
+• Admin Share: $3.
+Requirements:
+• Atomic Database Transactions.
+• Unique Transaction IDs.
+• Duplicate Transaction Protection.
+• Immutable Financial Ledger.
+• Creator Earnings History.
+• Admin Revenue History.
+• Gift Refund Adjustments.
+• Fraud Detection.
+• Reconciliation Reports.
+Define whether the split is calculated on gross or net gift value and apply the same rule consistently. Account separately for applicable taxes, refunds, payment fees and chargebacks.
+Never allow a user to modify their own wallet balance directly.
+
+
+
+
+
+MODULE 18: CREATOR STUDIO & ANALYTICS DASHBOARD
+Create a professional Creator Dashboard.
+Display:
+• Total Followers.
+• New Followers.
+• Total Video Views.
+• Total Reel Views.
+• Total Post Views.
+• Total Likes.
+• Total Comments.
+• Total Shares.
+• Total Gifts.
+• Total Gross Earnings.
+• Pending Earnings.
+• Available Earnings.
+• Total Paid Earnings.
+• Estimated Revenue.
+• Creator Performance.
+Analytics filters:
+• Today.
+• Last 7 Days.
+• Last 30 Days.
+• Last 90 Days.
+• Custom Date Range.
+Charts:
+• Follower Growth.
+• Video Views.
+• Post Engagement.
+• Revenue Growth.
+• Gift Performance.
+• Top Performing Content.
+Only use verified database records and clearly distinguish estimated revenue from finalized earnings.
+
+
+
+
+MODULE 19: CREATOR MONETIZATION ELIGIBILITY
+Implement creator monetization rules.
+Features:
+• Creator Mode.
+• Monetization Application.
+• Eligibility Checking.
+• Original Content Verification.
+• Copyright Compliance.
+• Policy Compliance.
+• KYC Verification.
+• Admin Approval.
+• Admin Rejection.
+• Monetization Suspension.
+• Appeal System.
+Show creators exactly which eligibility requirements they have met and which remain incomplete.
+
+
+
+
+
+MODULE 20: PAYOUT & WITHDRAWAL SYSTEM
+Minimum withdrawal requirements:
+Local Bank Payout:
+• Minimum $25 equivalent.
+• Bank Account Details.
+• IFSC for India.
+• Applicable local routing details for other countries.
+International Wire:
+• Minimum $100.
+• SWIFT/BIC.
+• IBAN where applicable.
+• Beneficiary Information.
+Features:
+• Request Withdrawal.
+• Available Balance Validation.
+• Pending Withdrawal.
+• Admin Review.
+• Approve.
+• Reject.
+• Payment Processing.
+• Payment Reference.
+• Transaction History.
+• Payout Status.
+• Failed Payout Handling.
+All withdrawals must first enter Pending status.
+Only the primary owner/admin may authorize the final financial payout.
+Never release money automatically without the required approval and verification.
+Implement appropriate tax, identity, sanctions and payment-provider checks based on the operating countries.
+
+
+
+
+
+MODULE 21: KYC & ANTI-FRAUD SECURITY
+Implement secure creator verification.
+Features:
+• Identity Verification.
+• PAN Verification where legally supported.
+• Aadhaar Verification through authorized providers where permitted.
+• Voter ID verification where supported.
+• Liveness Verification through a trusted provider.
+• OTP Verification.
+• Email Verification.
+• Payment Account Verification.
+• Withdrawal Cooling Period.
+Security rules:
+• Prevent Duplicate Payout Accounts.
+• Detect Suspicious Transactions.
+• Detect Unusual Gift Patterns.
+• Detect Self-Gifting.
+• Detect Payment Fraud.
+• Detect Chargebacks.
+• Detect Account Takeover.
+• Device Risk Signals.
+• IP Risk Signals.
+• Suspicious Balance Alerts.
+• Manual Fraud Review.
+Protect sensitive identity documents through private storage, restricted access, encryption and retention policies.
+Do not store biometric templates or unnecessary identity information without a lawful basis and appropriate safeguards.
+
+
+
+
+MODULE 22: ADMIN OWNER CONTROL PANEL
+Build a powerful, separate Admin Dashboard.
+Admin modules:
+1. Dashboard Overview.
+2. Total Users.
+3. Active Users.
+4. Suspended Users.
+5. Creator Management.
+6. Post Management.
+7. Reels Management.
+8. Stories Management.
+9. Live Stream Management.
+10. Groups Management.
+11. Pages Management.
+12. Reports Management.
+13. Copyright Complaints.
+14. KYC Verification.
+15. Monetization Applications.
+16. Star Shop Management.
+17. Gift Catalog Management.
+18. Admin Wallet.
+19. Creator Earnings.
+20. Payout Requests.
+21. Payment Transactions.
+22. Refund Management.
+23. Fraud Alerts.
+24. User Bans.
+25. System Settings.
+26. Audit Logs.
+27. Admin Roles.
+28. Analytics and Reports.
+Owner permissions:
+• Approve or Reject Monetization.
+• Approve or Reject Payouts.
+• Suspend Monetization.
+• Review Fraud Alerts.
+• Ban Accounts.
+• Manage Gift Prices.
+• Manage Star Packages.
+• Manage Platform Revenue.
+• View Financial Ledgers.
+Security requirements:
+• Strong Admin Authentication.
+• MFA.
+• Role-Based Access Control.
+• Server-Side Permission Verification.
+• Audit Logs.
+• Session Security.
+• Primary Owner Protection.
+Sub-admins and moderators must never be able to bypass the primary owner's financial authorization.
+
+
+
+
+MODULE 23: CONTENT REPORTING & MODERATION
+Implement a complete reporting system.
+Report reasons:
+• Spam.
+• Harassment.
+• Hate Speech.
+• Violence.
+• Copyright Violation.
+• Impersonation.
+• Fake Accounts.
+• Scam.
+• Inappropriate Content.
+• Other.
+Features:
+• Report Post.
+• Report Reel.
+• Report Comment.
+• Report Profile.
+• Report Live Stream.
+• Report Group.
+• Report Message.
+• Report Tracking.
+• Admin Review.
+• Content Removal.
+• Account Warning.
+• Suspension.
+• Appeal.
+Build automated moderation support alongside human moderation.
+Do not automatically remove legitimate content solely because of unverified automated detection.
+
+
+
+
+MODULE 24: CREATOR COPYRIGHT & ORIGINAL CONTENT POLICY
+Implement Creator Guidelines inside the application.
+Rules:
+• Creators should upload original content.
+• Unauthorized copyrighted videos and music are prohibited.
+• Reused content without meaningful original contribution may be ineligible for monetization.
+• External watermarks and copied content may trigger review.
+• Copyright complaints must be reviewable.
+• Repeated violations may result in monetization restrictions or account suspension.
+Provide copyright reporting and appeal mechanisms.
+
+
+
+
+
+MODULE 25: PRIVACY & ACCOUNT SECURITY
+Settings:
+• Public Account.
+• Private Account.
+• Profile Visibility.
+• Post Visibility.
+• Story Visibility.
+• Who Can Follow.
+• Who Can Message.
+• Who Can Comment.
+• Who Can Tag.
+• Who Can Mention.
+• Blocked Users.
+• Restricted Users.
+• Login Devices.
+• Two-Factor Authentication.
+• Download My Data.
+• Delete Account.
+• Account Deactivation.
+Apply database access policies to all private information and private content.
+
+
+
+
+MODULE 26: MARKETPLACE
+Create an optional integrated marketplace.
+Features:
+• Create Product Listing.
+• Product Photos.
+• Product Description.
+• Product Categories.
+• Product Search.
+• Product Filters.
+• Seller Profiles.
+• Buyer-Seller Messaging.
+• Listing Management.
+• Report Product.
+• Seller Reviews.
+• Order Tracking, where a supported commerce integration exists.
+Do not claim payments or delivery are active until the relevant providers are integrated.
+
+
+
+
+
+MODULE 27: MEMORIES, SAVED ITEMS & ARCHIVE
+Features:
+• Saved Posts.
+• Saved Reels.
+• Saved Videos.
+• Saved Collections.
+• Story Archive.
+• Memories.
+• Recently Viewed Content.
+• Post Drafts.
+• Recently Deleted Content.
+Users must have appropriate privacy and deletion controls.
+
+
+
+
+MODULE 28: MEDIA STORAGE & PERFORMANCE
+Use secure cloud storage.
+Requirements:
+• Private Storage Buckets.
+• Public Media Only Where Intended.
+• Signed URLs for Private Media.
+• Temporary Upload URLs.
+• Secure Upload Validation.
+• File Size Limits.
+• File Type Validation.
+• Image Optimization.
+• Video Compression.
+• Thumbnail Generation.
+• Background Processing.
+• Retry Mechanisms.
+• Upload Progress.
+• Error Handling.
+• CDN Delivery.
+Never expose private media using permanent unrestricted public URLs.
+The UI should remain responsive during uploads and background processing.
+
+
+
+
+
+MODULE 29: DATABASE & BACKEND ARCHITECTURE
+Inspect the current backend first.
+If Supabase is used, implement suitable tables and relationships for:
+• profiles
+• user_settings
+• friendships
+• friend_requests
+• followers
+• posts
+• post_media
+• comments
+• comment_reactions
+• post_reactions
+• saved_posts
+• reels
+• reel_views
+• stories
+• story_views
+• conversations
+• conversation_members
+• messages
+• notifications
+• groups
+• group_members
+• pages
+• page_roles
+• live_streams
+• live_viewers
+• gifts
+• gift_transactions
+• star_packages
+• star_wallets
+• star_transactions
+• creator_earnings
+• admin_wallet_ledger
+• payouts
+• payment_transactions
+• kyc_verifications
+• reports
+• copyright_claims
+• audio_tracks
+• hashtags
+• user_blocks
+• admin_audit_logs
+• moderation_actions
+• fraud_alerts
+This is a logical schema checklist, not an instruction to blindly duplicate existing tables.
+Requirements:
+• Proper Foreign Keys.
+• Database Constraints.
+• Indexes.
+• Transaction Safety.
+• Row Level Security.
+• Secure Database Functions.
+• Server-Side Authorization.
+• Realtime Subscriptions.
+• Data Validation.
+• Backup Strategy.
+• Database Migration History.
+
+
+
+
+MODULE 30: AUTOMATED BACKGROUND JOBS
+Implement scheduled and event-driven jobs for:
+• Story Expiration.
+• Notification Delivery.
+• Media Processing.
+• Analytics Aggregation.
+• Fraud Monitoring.
+• Payout Status Synchronization.
+• Payment Reconciliation.
+• Failed Job Retry.
+• Database Cleanup.
+• Security Monitoring.
+Creator account closure, page deletion or inactivity must not silently confiscate unpaid earnings.
+Instead:
+• Preserve an auditable financial record.
+• Notify the creator where appropriate.
+• Provide a reasonable claim or settlement process.
+• Apply the relevant contractual and legal unclaimed-funds rules.
+• Require authorized review for financial adjustments.
+
+
+
+
+MODULE 31: CUSTOMER SUPPORT & FEEDBACK
+Features:
+• Help Center.
+• FAQ.
+• Contact Support.
+• Submit Feedback.
+• Report Technical Problem.
+• Support Tickets.
+• Ticket Status.
+• Admin Replies.
+• User Support History.
+• Policy Documentation.
+
+
+
+
+MODULE 32: DESIGN & USER EXPERIENCE
+Use original premium MIVORZA branding.
+Design requirements:
+• Modern Social Media Interface.
+• Premium Dark Mode.
+• Light Mode.
+• Responsive Mobile Design.
+• Tablet Compatibility.
+• Desktop Compatibility.
+• Smooth Navigation.
+• Professional Animations.
+• Fast Loading.
+• Accessible Typography.
+• Consistent Icons.
+• Clean Layouts.
+• Skeleton Loading.
+• Empty States.
+• Error States.
+• Offline Handling.
+Main navigation should include:
+1. Home.
+2. Discover.
+3. Reels.
+4. Create.
+5. Notifications.
+6. Profile.
+Provide convenient access to Messenger, Live, Groups, Pages, Creator Studio and Settings.
+Do not copy Facebook or TikTok logos, trademarks or proprietary assets.
+
+
+
+
+
+
+MODULE 33: EXTERNAL API & SERVICE INTEGRATIONS
+Keep external services modular.
+Potential integrations:
+• Supabase: Authentication, Database, Storage and Realtime.
+• Stripe: Supported International Payments.
+• Razorpay: Eligible Local Payments.
+• LiveKit or Agora: Live Streaming.
+• Push Notification Provider: Device Notifications.
+• Video Processing Provider: Encoding and Transcoding.
+• Licensed Music Provider: Audio Library.
+• KYC Provider: Identity Verification.
+• Exchange Rate Provider: Currency Conversion.
+• Email Provider: Transactional Emails.
+For every integration:
+• Document Required Credentials.
+• Use Secure Environment Variables.
+• Create Server-Side API Functions.
+• Verify Webhooks.
+• Handle Errors.
+• Add Retry Logic.
+• Provide Sandbox Testing.
+• Provide Production Configuration Instructions.
+Do not use fake API responses as production integrations.
+
+
+
+
+
+MODULE 34: TESTING & QUALITY ASSURANCE
+Before declaring the application complete, test every module.
+Authentication Tests:
+• Registration.
+• Email Verification.
+• Login.
+• Logout.
+• Persistent Login.
+• Password Reset.
+Social Tests:
+• Posts.
+• Likes.
+• Comments.
+• Shares.
+• Friends.
+• Followers.
+• Stories.
+• Reels.
+Messaging Tests:
+• Direct Chat.
+• Group Chat.
+• Read Status.
+• Media Sharing.
+• Real-Time Updates.
+Live Tests:
+• Camera.
+• Microphone.
+• Stream Creation.
+• Viewer Playback.
+• Live Comments.
+• Gifts.
+Financial Tests:
+• Star Purchase.
+• First-Time Bonus.
+• Duplicate Payment Protection.
+• Gift Transaction.
+• 70/30 Split.
+• Wallet Reconciliation.
+• Payout Approval.
+• Payout Rejection.
+• Refund.
+• Chargeback.
+Security Tests:
+• Unauthorized Access.
+• RLS.
+• Admin Permission Bypass.
+• Duplicate Transactions.
+• User Data Exposure.
+• API Secret Exposure.
+• Account Deletion.
+• Session Security.
+Performance Tests:
+• Large Feeds.
+• Concurrent Users.
+• Realtime Events.
+• Large Media Uploads.
+• Slow Networks.
+• Mobile Performance.
+Do not declare a module complete unless its relevant tests pass.
+
+
+
+
+
+MODULE 35: PRODUCTION DEPLOYMENT & ANDROID BUILD
+Prepare the application for production.
+Requirements:
+• Production Environment Configuration.
+• Database Migrations.
+• Secure API Configuration.
+• Error Monitoring.
+• Performance Monitoring.
+• Backup Configuration.
+• Domain Configuration.
+• HTTPS.
+• Production Authentication.
+• Production Payment Webhooks.
+• Live Service Configuration.
+• Deployment Documentation.
+For Android:
+• Prepare a suitable native Android wrapper or supported mobile application architecture.
+• Configure Android Permissions.
+• Configure Camera and Microphone.
+• Configure Push Notifications.
+• Configure Deep Links.
+• Configure Secure Session Persistence.
+• Configure App Icons and Splash Screen.
+• Prepare Release Signing.
+• Generate APK.
+• Generate AAB.
+• Verify Release Builds.
+Important: If the current Lovable project is a web application, first determine the correct supported Android packaging workflow. Do not claim that APK or AAB files have been generated unless actual build artifacts have been created and tested.
+
+
+
+
+
+MODULE 36: FINAL DEVELOPMENT WORKFLOW
+Follow this exact sequence:
+PHASE 1 – Existing Project Audit
+• Inspect every page.
+• Inspect all components.
+• Inspect all routes.
+• Inspect database tables.
+• Inspect authentication.
+• Inspect API integrations.
+• Identify broken features.
+• Identify missing features.
+PHASE 2 – Backend & Security
+• Correct database architecture.
+• Implement RLS.
+• Secure authentication.
+• Secure storage.
+• Implement financial ledger.
+• Implement admin authorization.
+PHASE 3 – Core Social Features
+• Profiles.
+• Search.
+• Feed.
+• Friends.
+• Followers.
+• Stories.
+• Reels.
+• Comments.
+• Reactions.
+PHASE 4 – Communication
+• Messenger.
+• Notifications.
+• Groups.
+• Pages.
+• Real-Time Interactions.
+PHASE 5 – Creator Features
+• Creator Dashboard.
+• Analytics.
+• Audio Studio.
+• Trending Hub.
+• Live Streaming.
+PHASE 6 – Monetization
+• Star Shop.
+• Global Payments.
+• Virtual Gifts.
+• 70/30 Revenue Split.
+• Earnings Ledger.
+• Payout Requests.
+PHASE 7 – Admin & Anti-Fraud
+• KYC.
+• Fraud Detection.
+• Manual Approval.
+• Owner Dashboard.
+• Audit Logs.
+PHASE 8 – Testing & Deployment
+• End-to-End Testing.
+• Security Testing.
+• Performance Testing.
+• Production Deployment.
+• Android Packaging.
+• APK/AAB Verification.
+
+
+
+FINAL ACCEPTANCE REQUIREMENTS
+The project must not be marked complete merely because all pages look finished.
+Every completed module must satisfy these requirements:
+1. Functional user interface.
+2. Working backend connection.
+3. Correct database persistence.
+4. Secure authorization.
+5. Correct error handling.
+6. Mobile responsiveness.
+7. Successful testing.
+8. No fake production data.
+9. No nonfunctional buttons.
+10. No unauthorized financial operations.
+At the end, provide a detailed development report containing:
+• Features Completed.
+• Features Remaining.
+• Database Changes.
+• API Integrations.
+• Required External Credentials.
+• Security Findings.
+• Failed Tests.
+• Successful Tests.
+• Deployment Instructions.
+• APK/AAB Build Status.
+
+
+
+
+
+
+FINAL COMMAND:
+Start by auditing my EXISTING MIVORZA STUDIO project. Do not rebuild everything blindly. Preserve all existing working features, fix broken functionality, implement missing modules in phases, and connect each feature to its real backend.
+Do not stop after creating UI screens. Continue through backend integration, database implementation, security, testing and deployment preparation.
+If a task requires external credentials or my approval, tell me exactly what is required and continue with all independent work that can safely be completed.
+The final goal is a complete, secure, scalable and genuinely functional MIVORZA STUDIO social media and creator monetization platform.

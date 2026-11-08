@@ -1,0 +1,6 @@
+{
+  "name": "MIVORZA",
+  "description": "Complete Global Social Media & Creator Monetization Platform with feeds, reels, stories, messenger, live studio, and creator monetization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

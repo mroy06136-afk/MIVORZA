@@ -1,0 +1,272 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account and profile information on NIBORJA",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Google UID" },
+        "displayName": { "type": "string", "description": "Public name" },
+        "username": { "type": "string", "description": "Unique @username handle" },
+        "bio": { "type": "string", "description": "Profile bio" },
+        "avatarUrl": { "type": "string", "description": "Profile picture URL" },
+        "coverUrl": { "type": "string", "description": "Cover photo URL" },
+        "location": { "type": "string", "description": "User location" },
+        "website": { "type": "string", "description": "User website link" },
+        "creatorCategory": { "type": "string", "description": "Creator category" },
+        "isVerified": { "type": "boolean", "description": "Verification badge" },
+        "isCreatorMode": { "type": "boolean", "description": "Creator mode status" },
+        "followersCount": { "type": "integer", "description": "Total followers" },
+        "followingCount": { "type": "integer", "description": "Total following" },
+        "friendsCount": { "type": "integer", "description": "Total friends" },
+        "postsCount": { "type": "integer", "description": "Total posts" },
+        "starsBalance": { "type": "integer", "description": "Stars available in wallet" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "username", "createdAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Social feed post created by user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "authorUsername": { "type": "string" },
+        "content": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["none", "image", "video"] },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "sharesCount": { "type": "integer" },
+        "audience": { "type": "string", "enum": ["public", "friends", "private"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "authorName", "content", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comment on a post",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "postId": { "type": "string" },
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "userId", "authorName", "content", "createdAt"]
+    },
+    "Story": {
+      "title": "Story",
+      "description": "24-hour ephemeral story",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["image", "video", "text"] },
+        "caption": { "type": "string" },
+        "viewsCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "expiresAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "authorName", "mediaUrl", "createdAt"]
+    },
+    "Reel": {
+      "title": "Reel",
+      "description": "Short-form vertical video reel",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "videoUrl": { "type": "string" },
+        "caption": { "type": "string" },
+        "audioTitle": { "type": "string" },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "viewsCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "authorName", "videoUrl", "createdAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Chat thread between users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "participantIds": { "type": "array" },
+        "lastMessage": { "type": "string" },
+        "lastMessageSenderId": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantIds", "createdAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Direct message in a conversation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderAvatar": { "type": "string" },
+        "text": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["conversationId", "senderId", "senderName", "text", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "fromUserId": { "type": "string" },
+        "fromUserName": { "type": "string" },
+        "fromUserAvatar": { "type": "string" },
+        "type": { "type": "string" },
+        "message": { "type": "string" },
+        "targetId": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fromUserId", "fromUserName", "type", "message", "createdAt"]
+    },
+    "CreatorEarning": {
+      "title": "CreatorEarning",
+      "description": "Earning record with 70% creator / 30% admin split",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "creatorId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "giftName": { "type": "string" },
+        "starAmount": { "type": "integer" },
+        "creatorShareUsd": { "type": "number" },
+        "adminShareUsd": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["creatorId", "senderId", "giftName", "starAmount", "creatorShareUsd", "adminShareUsd", "createdAt"]
+    },
+    "PayoutRequest": {
+      "title": "PayoutRequest",
+      "description": "Creator withdrawal request",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "creatorId": { "type": "string" },
+        "creatorName": { "type": "string" },
+        "amountUsd": { "type": "number" },
+        "method": { "type": "string" },
+        "accountDetails": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["creatorId", "creatorName", "amountUsd", "method", "status", "createdAt"]
+    },
+    "MarketplaceItem": {
+      "title": "MarketplaceItem",
+      "description": "Marketplace product listing",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "sellerName": { "type": "string" },
+        "sellerAvatar": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "priceUsd": { "type": "number" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["sellerId", "sellerName", "title", "priceUsd", "status", "createdAt"]
+    },
+    "LiveStream": {
+      "title": "LiveStream",
+      "description": "Live broadcast room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "hostId": { "type": "string" },
+        "hostName": { "type": "string" },
+        "hostAvatar": { "type": "string" },
+        "title": { "type": "string" },
+        "viewerCount": { "type": "integer" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["hostId", "hostName", "title", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles"
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Social feed posts"
+    },
+    "/posts/{postId}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments on posts"
+    },
+    "/stories/{storyId}": {
+      "schema": "Story",
+      "description": "24-hour stories"
+    },
+    "/reels/{reelId}": {
+      "schema": "Reel",
+      "description": "Short video reels"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Chat conversations"
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages inside conversations"
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    },
+    "/creator_earnings/{earningId}": {
+      "schema": "CreatorEarning",
+      "description": "Monetization gift earnings records"
+    },
+    "/payout_requests/{payoutId}": {
+      "schema": "PayoutRequest",
+      "description": "Creator withdrawal requests"
+    },
+    "/marketplace/{itemId}": {
+      "schema": "MarketplaceItem",
+      "description": "Marketplace listings"
+    },
+    "/live_streams/{streamId}": {
+      "schema": "LiveStream",
+      "description": "Live streaming broadcasts"
+    }
+  }
+}

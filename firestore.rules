@@ -1,0 +1,268 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Entity validation helpers
+    function isValidUserProfile(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 100 &&
+             data.username is string && data.username.size() >= 2 && data.username.size() <= 50 &&
+             (!('bio' in data) || data.bio == null || (data.bio is string && data.bio.size() <= 500)) &&
+             (!('avatarUrl' in data) || data.avatarUrl == null || (data.avatarUrl is string && data.avatarUrl.size() <= 1000)) &&
+             (!('coverUrl' in data) || data.coverUrl == null || (data.coverUrl is string && data.coverUrl.size() <= 1000)) &&
+             (!('location' in data) || data.location == null || (data.location is string && data.location.size() <= 100)) &&
+             (!('website' in data) || data.website == null || (data.website is string && data.website.size() <= 200)) &&
+             (!('creatorCategory' in data) || data.creatorCategory == null || (data.creatorCategory is string && data.creatorCategory.size() <= 100)) &&
+             (!('isVerified' in data) || data.isVerified is bool) &&
+             (!('isCreatorMode' in data) || data.isCreatorMode is bool) &&
+             (!('followersCount' in data) || data.followersCount is int) &&
+             (!('followingCount' in data) || data.followingCount is int) &&
+             (!('friendsCount' in data) || data.friendsCount is int) &&
+             (!('postsCount' in data) || data.postsCount is int) &&
+             (!('starsBalance' in data) || data.starsBalance is int);
+    }
+
+    function isValidPost(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 100 &&
+             data.content is string && data.content.size() >= 1 && data.content.size() <= 5000 &&
+             (!('authorAvatar' in data) || data.authorAvatar == null || (data.authorAvatar is string && data.authorAvatar.size() <= 1000)) &&
+             (!('authorUsername' in data) || data.authorUsername == null || (data.authorUsername is string && data.authorUsername.size() <= 50)) &&
+             (!('mediaUrl' in data) || data.mediaUrl == null || (data.mediaUrl is string && data.mediaUrl.size() <= 1000)) &&
+             (!('mediaType' in data) || data.mediaType in ['none', 'image', 'video']) &&
+             (!('likesCount' in data) || data.likesCount is int) &&
+             (!('commentsCount' in data) || data.commentsCount is int) &&
+             (!('sharesCount' in data) || data.sharesCount is int) &&
+             (!('audience' in data) || data.audience in ['public', 'friends', 'private']);
+    }
+
+    function isValidComment(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.postId is string &&
+             data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 100 &&
+             data.content is string && data.content.size() >= 1 && data.content.size() <= 1000;
+    }
+
+    function isValidStory(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 100 &&
+             data.mediaUrl is string && data.mediaUrl.size() >= 1 && data.mediaUrl.size() <= 1000 &&
+             (!('caption' in data) || data.caption == null || (data.caption is string && data.caption.size() <= 500)) &&
+             (!('viewsCount' in data) || data.viewsCount is int);
+    }
+
+    function isValidReel(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 100 &&
+             data.videoUrl is string && data.videoUrl.size() >= 1 && data.videoUrl.size() <= 1000 &&
+             (!('caption' in data) || data.caption == null || (data.caption is string && data.caption.size() <= 1000)) &&
+             (!('audioTitle' in data) || data.audioTitle == null || (data.audioTitle is string && data.audioTitle.size() <= 100)) &&
+             (!('likesCount' in data) || data.likesCount is int) &&
+             (!('commentsCount' in data) || data.commentsCount is int) &&
+             (!('viewsCount' in data) || data.viewsCount is int);
+    }
+
+    function isValidMessage(data) {
+      return data.senderId is string && data.senderId == request.auth.uid &&
+             data.conversationId is string &&
+             data.senderName is string && data.senderName.size() >= 1 && data.senderName.size() <= 100 &&
+             data.text is string && data.text.size() >= 1 && data.text.size() <= 4000;
+    }
+
+    function isValidMarketplaceItem(data) {
+      return data.sellerId is string && data.sellerId == request.auth.uid &&
+             data.sellerName is string && data.sellerName.size() >= 1 && data.sellerName.size() <= 100 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 200 &&
+             data.priceUsd is number && data.priceUsd >= 0 &&
+             data.status in ['active', 'sold'] &&
+             (!('description' in data) || data.description == null || (data.description is string && data.description.size() <= 2000)) &&
+             (!('category' in data) || data.category == null || (data.category is string && data.category.size() <= 100)) &&
+             (!('imageUrl' in data) || data.imageUrl == null || (data.imageUrl is string && data.imageUrl.size() <= 1000));
+    }
+
+    function isValidLiveStream(data) {
+      return data.hostId is string && data.hostId == request.auth.uid &&
+             data.hostName is string && data.hostName.size() >= 1 && data.hostName.size() <= 100 &&
+             data.title is string && data.title.size() >= 1 && data.title.size() <= 200 &&
+             data.status in ['live', 'ended'] &&
+             (!('viewerCount' in data) || data.viewerCount is int);
+    }
+
+    // 1. Users collection
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create: if isOwner(userId) &&
+                       incoming().userId == request.auth.uid &&
+                       isValidUserProfile(incoming()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isOwner(userId) &&
+                       incoming().userId == existing().userId &&
+                       incoming().createdAt == existing().createdAt &&
+                       isValidUserProfile(incoming());
+      allow delete: if isOwner(userId);
+
+      // Subcollection: Notifications
+      match /notifications/{notificationId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isSignedIn() &&
+                         incoming().userId == userId &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+        allow update: if isOwner(userId) &&
+                         incoming().userId == existing().userId;
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // 2. Posts collection
+    match /posts/{postId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() &&
+                       incoming().userId == request.auth.uid &&
+                       isValidPost(incoming()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && (
+                       // Author full edit
+                       (resource.data.userId == request.auth.uid &&
+                        incoming().userId == existing().userId &&
+                        incoming().createdAt == existing().createdAt &&
+                        isValidPost(incoming())) ||
+                       // Reaction / Counter updates
+                       (incoming().diff(existing()).affectedKeys().hasOnly(['likesCount', 'commentsCount', 'sharesCount']))
+                     );
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+
+      // Subcollection: Comments
+      match /comments/{commentId} {
+        allow get, list: if isSignedIn();
+        allow create: if isSignedIn() &&
+                         incoming().userId == request.auth.uid &&
+                         isValidComment(incoming()) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+        allow delete: if isSignedIn() && (resource.data.userId == request.auth.uid || get(/databases/$(database)/documents/posts/$(postId)).data.userId == request.auth.uid);
+      }
+    }
+
+    // 3. Stories collection
+    match /stories/{storyId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() &&
+                       incoming().userId == request.auth.uid &&
+                       isValidStory(incoming()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && (
+                       (resource.data.userId == request.auth.uid && incoming().userId == existing().userId) ||
+                       (incoming().diff(existing()).affectedKeys().hasOnly(['viewsCount']))
+                     );
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // 4. Reels collection
+    match /reels/{reelId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() &&
+                       incoming().userId == request.auth.uid &&
+                       isValidReel(incoming()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && (
+                       (resource.data.userId == request.auth.uid && incoming().userId == existing().userId) ||
+                       (incoming().diff(existing()).affectedKeys().hasOnly(['likesCount', 'commentsCount', 'viewsCount']))
+                     );
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // 5. Conversations & Messages
+    match /conversations/{conversationId} {
+      allow get, list: if isSignedIn() && request.auth.uid in resource.data.participantIds;
+      allow create: if isSignedIn() && request.auth.uid in incoming().participantIds &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && request.auth.uid in resource.data.participantIds &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['lastMessage', 'lastMessageSenderId', 'updatedAt']);
+
+      match /messages/{messageId} {
+        allow get, list: if isSignedIn() && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participantIds;
+        allow create: if isSignedIn() &&
+                         incoming().senderId == request.auth.uid &&
+                         isValidMessage(incoming()) &&
+                         incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      }
+    }
+
+    // 6. Creator Earnings (70/30 ledger)
+    match /creator_earnings/{earningId} {
+      allow get, list: if isSignedIn() && (resource.data.creatorId == request.auth.uid || resource.data.senderId == request.auth.uid);
+      allow create: if isSignedIn() &&
+                       incoming().senderId == request.auth.uid &&
+                       incoming().starAmount is int && incoming().starAmount > 0 &&
+                       incoming().creatorShareUsd is number &&
+                       incoming().adminShareUsd is number &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+    }
+
+    // 7. Payout Requests
+    match /payout_requests/{payoutId} {
+      allow get, list: if isSignedIn() && resource.data.creatorId == request.auth.uid;
+      allow create: if isSignedIn() &&
+                       incoming().creatorId == request.auth.uid &&
+                       incoming().amountUsd is number && incoming().amountUsd >= 10 &&
+                       incoming().status == 'pending' &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && (
+                       (resource.data.creatorId == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['accountDetails']))
+                     );
+    }
+
+    // 8. Marketplace Items
+    match /marketplace/{itemId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() &&
+                       incoming().sellerId == request.auth.uid &&
+                       isValidMarketplaceItem(incoming()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && resource.data.sellerId == request.auth.uid &&
+                       incoming().sellerId == existing().sellerId &&
+                       isValidMarketplaceItem(incoming());
+      allow delete: if isSignedIn() && resource.data.sellerId == request.auth.uid;
+    }
+
+    // 9. Live Streams
+    match /live_streams/{streamId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() &&
+                       incoming().hostId == request.auth.uid &&
+                       isValidLiveStream(incoming()) &&
+                       incoming().createdAt is timestamp && incoming().createdAt <= request.time;
+      allow update: if isSignedIn() && (
+                       (resource.data.hostId == request.auth.uid && isValidLiveStream(incoming())) ||
+                       (incoming().diff(existing()).affectedKeys().hasOnly(['viewerCount', 'status']))
+                     );
+      allow delete: if isSignedIn() && resource.data.hostId == request.auth.uid;
+    }
+  }
+}
