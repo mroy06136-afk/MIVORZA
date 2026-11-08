@@ -17,8 +17,11 @@ jobs:
         run: chmod +x gradlew || find . -name "gradlew" -exec chmod +x {} +
       - name: Build APK with Gradle
         run: ./gradlew assembleDebug || find . -name "gradlew" -execdir ./gradlew assembleDebug \;
-      - name: Upload APK
+      - name: Find and Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: '**/build/outputs/apk/debug/app-debug.apk'
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            **/build/outputs/apk/debug/*.apk
+            **/*.apk
