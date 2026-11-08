@@ -17,15 +17,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle Wrapper
+      - name: Build with Gradle
         run: |
-          if [ ! -f "./gradlew" ]; then
-            gradle wrapper
-          fi
-          chmod +x gradlew
-
-      - name: Build APK with Gradle
-        run: ./gradlew assembleDebug
+          chmod +x ./gradlew || true
+          ./gradlew assembleDebug || gradle assembleDebug || ./gradlew build
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -34,3 +29,4 @@ jobs:
           path: |
             app/build/outputs/apk/debug/*.apk
             **/build/outputs/apk/debug/*.apk
+            **/*.apk
