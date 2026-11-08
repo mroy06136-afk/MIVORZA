@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "690688653569",
+    "project_id": "mivorza",
+    "storage_bucket": "mivorza.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690688653569:android:ef2a38c033d07363bbc300",
+        "android_client_info": {
+          "package_name": "com.aistudio.niborja.social"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKXdYb7jtmzflyUe5s5RwezK632DHU9u8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
