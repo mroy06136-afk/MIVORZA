@@ -1,11 +1,10 @@
-
 name: Build Android APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
@@ -21,18 +20,17 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
+        cache: 'gradle'
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
 
-    - name: Build Debug APK with Gradle
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        arguments: assembleDebug
-        gradle-version: wrapper
+    - name: Accept Android SDK licenses
+      run: |
+        mkdir -p $ANDROID_SDK_ROOT/licenses
+        echo -e "\n8933bac1632f81480f07d25fb2f440eb54514da1" > $ANDROID_SDK_ROOT/licenses/android-sdk-license
+        echo -e "\n24333f1a63bf6609358a599602a5c4e9cfbbd0e4" >> $ANDROID_SDK_ROOT/licenses/android-sdk-license
+        echo -e "\nd56f5187479451eabf01fb78af6dfcb131a648b0" >> $ANDROID_SDK_ROOT/licenses/android-sdk-license
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-debug-apk
-        path: app/build/outputs/apk/debug/app-debug-apk.apk
+    - name: Build APK with Gradle
+      run: ./gradlew assembleDebug
