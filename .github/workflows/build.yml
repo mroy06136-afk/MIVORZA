@@ -6,36 +6,30 @@ on:
   pull_request:
     branches: [ main, master ]
   workflow_dispatch:
-
-jobs:
+jobs:kotlin = "2.0.20"
+composeCompiler = "2.0.20"
+googleDevtoolsKsp = "2.0.20-1.0.25"
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
           cache: 'gradle'
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
       - name: Generate Gradle Wrapper if missing
         run: gradle wrapper
-
       - name: Generate Debug Keystore
         run: |
           mkdir -p app
           keytool -genkey -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug, O=Android, C=US"
-
       - name: Build Debug APK with Gradle
         run: ./gradlew assembleDebug
-
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
