@@ -17,6 +17,9 @@ data class UserProfile(
     val location: String = "",
     val website: String = "",
     val creatorCategory: String = "Digital Creator",
+    val email: String = "",
+    val isAdmin: Boolean = false,
+    val status: String = "active", // active, suspended, banned
     val isVerified: Boolean = false,
     val isCreatorMode: Boolean = true,
     val followersCount: Long = 0L,
@@ -190,3 +193,25 @@ data class VirtualGift(
     val emoji: String,
     val tier: String // small, medium, high, premium
 )
+
+@IgnoreExtraProperties
+data class ReportItem(
+    @DocumentId val id: String = "",
+    val reporterId: String = "",
+    val reporterName: String = "",
+    val targetType: String = "post", // post, user, comment
+    val targetId: String = "",
+    val targetContent: String = "",
+    val reason: String = "",
+    val status: String = "pending", // pending, resolved, dismissed
+    @ServerTimestamp val createdAt: Timestamp? = null
+)
+
+@IgnoreExtraProperties
+data class FollowRelation(
+    @DocumentId val id: String = "",
+    val followerId: String = "",
+    val targetUserId: String = "",
+    @ServerTimestamp val createdAt: Timestamp? = null
+)
+

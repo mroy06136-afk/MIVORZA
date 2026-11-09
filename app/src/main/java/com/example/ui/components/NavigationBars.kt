@@ -38,15 +38,17 @@ enum class ScreenTab {
 @Composable
 fun NiborjaTopBar(
     starsBalance: Long,
+    unreadNotificationsCount: Int = 0,
     onOpenStarShop: () -> Unit,
     onOpenMessenger: () -> Unit,
     onOpenLive: () -> Unit,
-    onOpenSearch: () -> Unit
+    onOpenSearch: () -> Unit,
+    onOpenNotifications: () -> Unit = {}
 ) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                // Gradient N brand badge
+                // Gradient M brand badge
                 Surface(
                     modifier = Modifier.size(34.dp),
                     shape = RoundedCornerShape(10.dp),
@@ -75,7 +77,7 @@ fun NiborjaTopBar(
                     Text(
                         text = "MIVORZA",
                         fontWeight = FontWeight.Black,
-                        fontSize = 19.sp,
+                        fontSize = 18.sp,
                         letterSpacing = 1.sp
                     )
                     Text(
@@ -89,6 +91,37 @@ fun NiborjaTopBar(
             }
         },
         actions = {
+            // Search Action
+            IconButton(onClick = onOpenSearch, modifier = Modifier.testTag("topbar_search_button")) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search"
+                )
+            }
+
+            // Notifications Action
+            IconButton(onClick = onOpenNotifications, modifier = Modifier.testTag("topbar_notifications_button")) {
+                if (unreadNotificationsCount > 0) {
+                    BadgedBox(
+                        badge = {
+                            Badge(containerColor = NiborjaSecondary) {
+                                Text("$unreadNotificationsCount", fontSize = 10.sp, color = Color.White)
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = "Notifications"
+                        )
+                    }
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.Notifications,
+                        contentDescription = "Notifications"
+                    )
+                }
+            }
+
             // Star Wallet Balance Chip
             Surface(
                 color = NiborjaTertiaryGold.copy(alpha = 0.15f),
@@ -98,45 +131,26 @@ fun NiborjaTopBar(
                     .testTag("topbar_star_chip")
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("⭐", fontSize = 13.sp)
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("⭐", fontSize = 12.sp)
+                    Spacer(modifier = Modifier.width(3.dp))
                     Text(
                         text = "$starsBalance",
                         fontWeight = FontWeight.Bold,
                         color = NiborjaTertiaryGold,
-                        fontSize = 13.sp
+                        fontSize = 12.sp
                     )
                 }
-            }
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            // Live Broadcast Action
-            IconButton(onClick = onOpenLive, modifier = Modifier.testTag("topbar_live_button")) {
-                Icon(
-                    imageVector = Icons.Default.LiveTv,
-                    contentDescription = "Go Live",
-                    tint = Color(0xFFEF4444)
-                )
             }
 
             // Messenger Action
             IconButton(onClick = onOpenMessenger, modifier = Modifier.testTag("topbar_messenger_button")) {
-                BadgedBox(
-                    badge = {
-                        Badge(containerColor = NiborjaPrimary) {
-                            Text("3", fontSize = 10.sp, color = Color.White)
-                        }
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Chat,
-                        contentDescription = "Messenger"
-                    )
-                }
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.Chat,
+                    contentDescription = "Messenger"
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

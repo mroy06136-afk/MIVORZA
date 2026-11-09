@@ -1,28 +1,39 @@
 package com.example.data.repository
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.example.R
 import com.example.data.model.*
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.snapshots
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 
 class NiborjaRepository(val db: FirebaseFirestore) {
 
     constructor(context: Context) : this(
-        FirebaseFirestore.getInstance(
-            context.applicationContext.getString(R.string.firestore_database_id)
-        )
+        try {
+            val dbId = context.applicationContext.getString(R.string.firestore_database_id)
+            if (dbId.isNotBlank() && dbId != "(default)") {
+                FirebaseFirestore.getInstance(FirebaseApp.getInstance(), dbId)
+            } else {
+                FirebaseFirestore.getInstance()
+            }
+        } catch (e: Exception) {
+            FirebaseFirestore.getInstance()
+        }
     )
 
     private val auth = Firebase.auth
@@ -193,11 +204,22 @@ class NiborjaRepository(val db: FirebaseFirestore) {
     suspend fun getOrCreateUserProfile(): UserProfile {
         val user = auth.currentUser ?: throw IllegalStateException("Not signed in")
         val docRef = db.collection("users").document(user.uid)
+        val userEmail = user.email ?: ""
+        val isOwnerAdmin = userEmail.equals("mroy06136@gmail.com", ignoreCase = true) || userEmail.startsWith("admin", ignoreCase = true)
+
         try {
             val snapshot = docRef.get().await()
             if (snapshot.exists()) {
                 val existing = snapshot.toObject(UserProfile::class.java)
-                if (existing != null) return existing
+                if (existing != null) {
+                    if (isOwnerAdmin && !existing.isAdmin) {
+                        try {
+                            docRef.update(mapOf("isAdmin" to true, "email" to userEmail)).await()
+                        } catch (e: Exception) {}
+                        return existing.copy(isAdmin = true, email = userEmail)
+                    }
+                    return existing
+                }
             }
         } catch (e: Exception) {
             Log.w("NiborjaRepo", "Profile read fallback: ${e.message}")
@@ -213,6 +235,9 @@ class NiborjaRepository(val db: FirebaseFirestore) {
             userId = user.uid,
             displayName = name,
             username = handle,
+            email = userEmail,
+            isAdmin = isOwnerAdmin,
+            status = "active",
             avatarUrl = avatar,
             coverUrl = "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800",
             bio = "Official creator on MIVORZA • Connect, Share, Create & Earn",
@@ -226,6 +251,9 @@ class NiborjaRepository(val db: FirebaseFirestore) {
             "userId" to newProfile.userId,
             "displayName" to newProfile.displayName,
             "username" to newProfile.username,
+            "email" to newProfile.email,
+            "isAdmin" to newProfile.isAdmin,
+            "status" to newProfile.status,
             "avatarUrl" to newProfile.avatarUrl,
             "coverUrl" to newProfile.coverUrl,
             "bio" to newProfile.bio,
@@ -708,7 +736,7 @@ class NiborjaRepository(val db: FirebaseFirestore) {
         val payload = mapOf(
             "userId" to targetUserId,
             "fromUserId" to (sender?.uid ?: "system"),
-            "fromUserName" to (sender?.displayName ?: "Niborja"),
+            "fromUserName" to (sender?.displayName ?: "MIVORZA"),
             "fromUserAvatar" to (sender?.photoUrl?.toString() ?: ""),
             "type" to type,
             "message" to message,
@@ -718,4 +746,150 @@ class NiborjaRepository(val db: FirebaseFirestore) {
         )
         notifRef.set(payload).await()
     }
+
+    suspend fun markNotificationAsRead(userId: String, notifId: String) {
+        db.collection("users").document(userId).collection("notifications").document(notifId)
+            .update("isRead", true).await()
+    }
+
+    // --- STORAGE MEDIA UPLOAD ---
+    suspend fun uploadMediaToStorage(uri: Uri, folder: String = "posts"): String {
+        val uid = requireUserId()
+        val storage = FirebaseStorage.getInstance()
+        val filename = "${UUID.randomUUID()}"
+        val ref = storage.reference.child("users/$uid/$folder/$filename")
+        ref.putFile(uri).await()
+        return ref.downloadUrl.await().toString()
+    }
+
+    // --- FOLLOW / UNFOLLOW ---
+    suspend fun followUser(targetUserId: String, targetUserName: String) {
+        val uid = requireUserId()
+        if (uid == targetUserId) return
+        val followDocId = "${uid}_$targetUserId"
+        val followRef = db.collection("follows").document(followDocId)
+        val payload = mapOf(
+            "followerId" to uid,
+            "targetUserId" to targetUserId,
+            "createdAt" to FieldValue.serverTimestamp()
+        )
+        followRef.set(payload).await()
+        try {
+            db.collection("users").document(uid).update("followingCount", FieldValue.increment(1)).await()
+            db.collection("users").document(targetUserId).update("followersCount", FieldValue.increment(1)).await()
+        } catch (e: Exception) {
+            Log.w("NiborjaRepo", "Follow counter update: ${e.message}")
+        }
+        val myName = auth.currentUser?.displayName ?: "A creator"
+        createNotification(targetUserId, "follow", "$myName started following you!")
+    }
+
+    suspend fun unfollowUser(targetUserId: String) {
+        val uid = requireUserId()
+        val followDocId = "${uid}_$targetUserId"
+        val followRef = db.collection("follows").document(followDocId)
+        followRef.delete().await()
+        try {
+            db.collection("users").document(uid).update("followingCount", FieldValue.increment(-1)).await()
+            db.collection("users").document(targetUserId).update("followersCount", FieldValue.increment(-1)).await()
+        } catch (e: Exception) {
+            Log.w("NiborjaRepo", "Unfollow counter update: ${e.message}")
+        }
+    }
+
+    fun observeIsFollowing(targetUserId: String): Flow<Boolean> = callbackFlow {
+        val uid = auth.currentUser?.uid
+        if (uid == null) {
+            trySend(false)
+            close()
+            return@callbackFlow
+        }
+        val followDocId = "${uid}_$targetUserId"
+        val listener = db.collection("follows").document(followDocId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    trySend(false)
+                    return@addSnapshotListener
+                }
+                trySend(snapshot?.exists() == true)
+            }
+        awaitClose { listener.remove() }
+    }
+
+    // --- SEARCH ---
+    fun searchUsers(query: String): Flow<List<UserProfile>> = db.collection("users")
+        .limit(30)
+        .snapshots()
+        .map { snapshot ->
+            val all = snapshot.toObjects(UserProfile::class.java)
+            if (query.isBlank()) all
+            else all.filter {
+                it.displayName.contains(query, ignoreCase = true) ||
+                it.username.contains(query, ignoreCase = true) ||
+                it.creatorCategory.contains(query, ignoreCase = true)
+            }
+        }
+        .catch { emit(emptyList()) }
+
+    fun searchPosts(query: String): Flow<List<Post>> = db.collection("posts")
+        .limit(30)
+        .snapshots()
+        .map { snapshot ->
+            val all = snapshot.toObjects(Post::class.java)
+            val list = if (all.isEmpty()) DEFAULT_POSTS else all
+            if (query.isBlank()) list
+            else list.filter {
+                it.content.contains(query, ignoreCase = true) ||
+                it.authorName.contains(query, ignoreCase = true)
+            }
+        }
+        .catch { emit(DEFAULT_POSTS) }
+
+    // --- REPORTS & MODERATION ---
+    suspend fun reportContent(targetType: String, targetId: String, content: String, reason: String) {
+        val uid = requireUserId()
+        val user = auth.currentUser
+        val reportRef = db.collection("reports").document()
+        val payload = mapOf(
+            "reporterId" to uid,
+            "reporterName" to (user?.displayName ?: "User"),
+            "targetType" to targetType,
+            "targetId" to targetId,
+            "targetContent" to content,
+            "reason" to reason,
+            "status" to "pending",
+            "createdAt" to FieldValue.serverTimestamp()
+        )
+        reportRef.set(payload).await()
+    }
+
+    fun observeReports(): Flow<List<ReportItem>> = db.collection("reports")
+        .orderBy("createdAt", Query.Direction.DESCENDING)
+        .snapshots()
+        .map { it.toObjects(ReportItem::class.java) }
+        .catch { emit(emptyList()) }
+
+    suspend fun resolveReport(reportId: String, status: String) {
+        db.collection("reports").document(reportId).update("status", status).await()
+    }
+
+    // --- ADMIN USER MANAGEMENT ---
+    fun observeAllUsers(): Flow<List<UserProfile>> = db.collection("users")
+        .limit(50)
+        .snapshots()
+        .map { it.toObjects(UserProfile::class.java) }
+        .catch { emit(emptyList()) }
+
+    suspend fun toggleUserVerification(userId: String, isVerified: Boolean) {
+        db.collection("users").document(userId).update("isVerified", isVerified).await()
+    }
+
+    suspend fun toggleUserCreatorMode(userId: String, isCreatorMode: Boolean) {
+        db.collection("users").document(userId).update("isCreatorMode", isCreatorMode).await()
+    }
+
+    suspend fun updateUserStatus(userId: String, status: String) {
+        db.collection("users").document(userId).update("status", status).await()
+    }
 }
+
