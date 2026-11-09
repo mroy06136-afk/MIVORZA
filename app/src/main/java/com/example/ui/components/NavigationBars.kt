@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import com.example.ui.theme.NiborjaPrimary
 import com.example.ui.theme.NiborjaSecondary
 import com.example.ui.theme.NiborjaTertiaryGold
+import androidx.compose.material.icons.automirrored.outlined.Chat
+import androidx.compose.material.icons.outlined.Chat
 
 enum class ScreenTab {
     FEED,
