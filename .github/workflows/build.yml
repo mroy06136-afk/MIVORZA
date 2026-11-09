@@ -10,11 +10,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+name: Generate Debug Keystore
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-
+./gradlew assembleDebug
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
