@@ -1,8 +1,56 @@
 
-#!/bin/sh
+name: MIVORZA APK Builder
 
-APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
 
-exec java \
-  -classpath "$APP_HOME/gradle/wrapper/gradle-wrapper.jar" \
-  org.gradle.wrapper.GradleWrapperMain "$@
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Verify Gradle Files
+        run: |
+          ls -la
+          ls -la gradle/wrapper || true
+
+      - name: Build APK
+        run: |
+          if [ -f gradlew ]; then
+            chmod +x gradlew
+            ./gradlew assembleDebug --stacktrace
+          elif [ -f gradlew.bat ]; then
+            echo "Linux gradlew is missing"
+            exit 1
+          else
+            echo "Gradle wrapper not found"
+            exit 1
+          fi
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: MIVORZA-APK
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
